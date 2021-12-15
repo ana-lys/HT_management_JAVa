@@ -448,9 +448,10 @@ public class KH_frame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -461,29 +462,60 @@ public class KH_frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTfIdActionPerformed
 
     private void jBAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAddActionPerformed
+    
+    try {
+    Class.forName("com.mysql.jdbc.Driver") ;  
+    int c =0; // case number
+    sqlCon = DriverManager.getConnection(databaseCon,username,password);
+    if(jTfId.getText().isEmpty()){
+    pst =sqlCon.prepareStatement("insert into khach_hang (Name,Phone,Creditcard,Address,Date_contacted,Citizen_id,Accompany)value(?,?,?,?,?,?,?)");
+    }
+    else {
+    pst =sqlCon.prepareStatement("insert into khach_hang (Name,ID,Phone,Creditcard,Address,Date_contacted,Citizen_id,Accompany)value(?,?,?,?,?,?,?,?)");
+    c=1;
+    pst.setString(2,jTfId.getText() );
+    }
+    pst.setString(1,jTfName.getText() );
+    pst.setString(2+c,jTfPhone.getText() );
+    pst.setString(3+c,jTfCDN.getText() );
+    pst.setString(4+c,jTfAddress.getText());
+    if(jTfDate.getText().isEmpty()){
+    pst.setString(5+c,java.time.LocalDate.now().toString());    
+    } else
+    pst.setString(5+c,jTfDate.getText() );
+    pst.setString(6+c,jTfCitizen.getText() );
+    if(jTfAccompany.getText().isEmpty()){
+         pst.setString(7+c,"1");
+    } else
+    pst.setString(7+c,jTfAccompany.getText());
+    pst.executeUpdate();
+    JOptionPane.showMessageDialog(this,"Khách Hàng đã được lưu lại");
+    upDateDB();
+    }                                     
+        catch(Exception ex) {
+        JOptionPane.showMessageDialog(null, ex);
+        }
+  
+    }//GEN-LAST:event_jBAddActionPerformed
+       
+    
+    private void jBDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeleteActionPerformed
        try {
     Class.forName("com.mysql.jdbc.Driver") ;  
     sqlCon = DriverManager.getConnection(databaseCon,username,password);
-    pst =sqlCon.prepareStatement("insert into khach_hang (Name,ID,Phone,Creditcard,Address,Date_contacted,Citizen_id,Accompany)value(?,?,?,?,?,?,?,?)");
-    pst.setString(1,jTfName.getText() );
-    pst.setString(2,jTfId.getText() );
-    pst.setString(3,jTfPhone.getText() );
-    pst.setString(4,jTfCDN.getText() );
-    pst.setString(5,jTfAddress.getText());
-    pst.setString(6,jTfDate.getText() );
-    pst.setString(7,jTfCitizen.getText() );
-    pst.setString(8,jTfAccompany.getText());
-    pst.executeUpdate();
-    JOptionPane.showMessageDialog(this,"record added");
+    pst =sqlCon.prepareStatement("delete from khach_hang where ID = '"+jTfId.getText()+"'");
+    frame = new JFrame("delete");
+        if(JOptionPane.showConfirmDialog( frame,"Confirm Delete","Khach Hang "+jTfId.getText(),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+        pst.executeUpdate();
+    JOptionPane.showMessageDialog(this,"record updated");
     upDateDB();
-    }//GEN-LAST:event_jBAddActionPerformed
+        }
+    }
     catch(Exception ex) {
     JOptionPane.showMessageDialog(null, ex);
-    }}
-    private void jBDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeleteActionPerformed
-        // TODO add your handling code here:
+    }
     }//GEN-LAST:event_jBDeleteActionPerformed
-
+    
     private void jBUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdateActionPerformed
          try {
     Class.forName("com.mysql.jdbc.Driver") ;  
@@ -493,14 +525,16 @@ public class KH_frame extends javax.swing.JFrame {
     pst.setString(2,jTfPhone.getText() );
     pst.setString(3,jTfCDN.getText() );
     pst.setString(4,jTfAddress.getText());
- 
     pst.setString(5,jTfDate.getText() );
     pst.setString(6,jTfCitizen.getText() );
     pst.setString(7,jTfAccompany.getText());
     pst.setString(8,jTfId.getText() );
+    if(JOptionPane.showConfirmDialog( frame,"Confirm Update","Khach Hang "+jTfId.getText(),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
     pst.executeUpdate();
     JOptionPane.showMessageDialog(this,"record updated");
-    upDateDB();
+    upDateDB(); 
+    }
+   
     }                                     
     catch(Exception ex) {
     JOptionPane.showMessageDialog(null, ex);
@@ -519,7 +553,7 @@ private JFrame frame;
     private void jBExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExitActionPerformed
         frame = new JFrame("EXIT");
         if(JOptionPane.showConfirmDialog( frame,"Confirm Exit","MySQL Connector",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
-        System.exit(0);
+        dispose();
         }
     }//GEN-LAST:event_jBExitActionPerformed
 
@@ -534,6 +568,7 @@ private JFrame frame;
         jTfAccompany.setText("");
         jTfCitizen.setText("");
         jTfQuery.setText("");
+        jLPicture.setIcon(new ImageIcon(""));
         
     }//GEN-LAST:event_jBResetActionPerformed
 
@@ -564,6 +599,8 @@ private JFrame frame;
        jTfDate.setText(RecordTable.getValueAt(selectedrows,5).toString());
        jTfCitizen.setText(RecordTable.getValueAt(selectedrows,6).toString());
        jTfAccompany.setText(RecordTable.getValueAt(selectedrows,7).toString());
+       String file ="Resource_Image/"+jTfId.getText()+".jpg";
+        jLPicture.setIcon(new ImageIcon(file));
        
     }//GEN-LAST:event_jTable1MouseClicked
 
