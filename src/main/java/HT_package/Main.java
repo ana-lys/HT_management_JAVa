@@ -17,16 +17,7 @@ public class Main {
      */
     public static void main(String[] args) {
      Login_frame Login_f = new Login_frame();
-     Main_frame Main_f = new Main_frame();
       Login_f.setVisible(true);
-      Boolean  b = true ,blast =true ;
-      while(b ){
-       
-      if(!Login_f.isDisplayable()){
-       Main_f.setVisible(true);
-      b=false;}
-      blast = Login_f.isDisplayable();
-    }
     
 }
 

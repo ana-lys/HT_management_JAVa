@@ -64,6 +64,11 @@ public class Login_frame extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,16 +127,38 @@ public class Login_frame extends javax.swing.JFrame {
     for(char a : input) {pass+= a;}
     for(int i=0;i < input.length; i++ ){ input[i]='f'; }
     if(pass.equals(rs.getString("Pass_word"))){
+    pass="fffffffffffff";
     JOptionPane.showMessageDialog(this,"Welcome " +rs.getString("Acc_Rank")+ " "+ jTfUser_Name.getText());
+    Main_frame Main_f = new Main_frame();
+    Main_f.setVisible(true);
     this.dispose();   
     }
-    else
-     JOptionPane.showMessageDialog(this,"INVALID ACCOUNT");
-       pass="ffffffffffffffff";
         }
         catch(Exception ex){
-        JOptionPane.showMessageDialog(this,"INVALID ACCOUNT");}
+            try{
+        String pass="fffffffffffff";
+        pst =sqlCon.prepareStatement(" select * from khach_hang where ID = ? ");
+        pst.setString(1, jTfUser_Name.getText());
+        rs = pst.executeQuery();
+        rs.getMetaData();
+        rs.next();
+        char input2[] =jPw.getPassword();
+        pass ="";
+        for(char a : input2) {pass+= a;}
+        for(int i=0;i < input2.length; i++ ){ input2[i]='f'; }
+        if(pass.equals(rs.getString("Phone"))){
+        JOptionPane.showMessageDialog(this,"Welcome guess "+rs.getString("Name") + " ID " +rs.getString("ID"));
+        }
+            }
+        catch(Exception ex2){
+        JOptionPane.showMessageDialog(this,"INVALID ACCOUNT2");}
+        
+        }
     }//GEN-LAST:event_jButton1MouseClicked
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
