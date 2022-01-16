@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package HT_package;
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +18,8 @@ public class Main {
      */
     public static void main(String[] args) {
      Login_frame Login_f = new Login_frame();
+      Color nblue= new Color (150,250,250);
+      Login_f.getContentPane().setBackground(nblue);
       Login_f.setVisible(true);
     
 }

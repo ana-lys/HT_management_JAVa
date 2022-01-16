@@ -47,6 +47,10 @@ public class Login_frame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ĐĂNG NHẬP");
+        setAlwaysOnTop(true);
+        setBackground(new java.awt.Color(153, 255, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("USER NAME");
 
