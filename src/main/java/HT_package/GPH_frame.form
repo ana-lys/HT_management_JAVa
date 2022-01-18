@@ -115,8 +115,8 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jBAdd" min="-2" pref="185" max="-2" attributes="0"/>
                       <Component id="jBDelete" min="-2" pref="185" max="-2" attributes="0"/>
+                      <Component id="jBAdd" min="-2" pref="185" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
               </Group>
@@ -157,9 +157,9 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="jBAdd" min="-2" pref="78" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jBDelete" min="-2" pref="78" max="-2" attributes="0"/>
                               </Group>
                           </Group>

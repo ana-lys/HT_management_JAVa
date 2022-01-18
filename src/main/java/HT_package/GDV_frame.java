@@ -38,7 +38,7 @@ public class GDV_frame extends javax.swing.JFrame {
     Class.forName("com.mysql.jdbc.Driver") ;  
     sqlCon = DriverManager.getConnection(databaseCon,username,password);
     // process the results  
-    pst =sqlCon.prepareStatement("select * from khach_hang");
+    pst =sqlCon.prepareStatement("select * from gia_dich_vu");
     rs = pst.executeQuery();
     ResultSetMetaData stData =rs.getMetaData();
     
@@ -50,15 +50,16 @@ public class GDV_frame extends javax.swing.JFrame {
     Vector columnData = new Vector();
     for(i=1;i<=q;i++){
       
-    columnData.add(rs.getString("Name"));
-    System.out.println(rs.getString("Name"));
-    columnData.add(rs.getString("ID"));
-    columnData.add(rs.getString("Phone"));
-    columnData.add(rs.getString("Creditcard"));
-    columnData.add(rs.getString("Address"));
-    columnData.add(rs.getString("Date_contacted"));
-    columnData.add(rs.getString("Citizen_id"));
-    columnData.add(rs.getString("Accompany"));
+    columnData.add(rs.getString("ID_Service"));
+    System.out.println(rs.getString("ID_Service"));
+    columnData.add(rs.getString("Description"));
+    columnData.add(rs.getString("Service_Price"));
+    columnData.add(rs.getString("From_Date"));
+    if(rs.getString("To_Date")!=null)
+    columnData.add(rs.getString("To_Date"));
+    else
+    columnData.add("");
+
     }
     RecordTable.addRow(columnData);
     
@@ -76,8 +77,8 @@ public class GDV_frame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTfClass = new javax.swing.JTextField();
-        jTfPrice = new javax.swing.JTextField();
+        jTfID = new javax.swing.JTextField();
+        jTfDescription = new javax.swing.JTextField();
         jTfFromDate = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -86,7 +87,7 @@ public class GDV_frame extends javax.swing.JFrame {
         jBDelete = new javax.swing.JButton();
         jBSHOW = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTfDeposit = new javax.swing.JTextField();
+        jTfPrice = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTfToDate = new javax.swing.JTextField();
         jBExit = new javax.swing.JButton();
@@ -105,12 +106,12 @@ public class GDV_frame extends javax.swing.JFrame {
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("LOẠI PHÒNG");
+        jLabel3.setText("MÃ DỊCH VỤ");
         jLabel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("GIÁ PHÒNG");
+        jLabel4.setText("MÔ TẢ");
         jLabel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -118,19 +119,19 @@ public class GDV_frame extends javax.swing.JFrame {
         jLabel5.setText("TỪ NGÀY");
         jLabel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
-        jTfClass.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTfClass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jTfClass.addActionListener(new java.awt.event.ActionListener() {
+        jTfID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTfID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jTfID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTfClassActionPerformed(evt);
+                jTfIDActionPerformed(evt);
             }
         });
 
-        jTfPrice.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTfPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jTfPrice.addActionListener(new java.awt.event.ActionListener() {
+        jTfDescription.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTfDescription.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jTfDescription.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTfPriceActionPerformed(evt);
+                jTfDescriptionActionPerformed(evt);
             }
         });
 
@@ -148,7 +149,7 @@ public class GDV_frame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "LOẠI PHÒNG", "GIÁ PHÒNG", "ĐẶT CỌC", "TỪ NGÀY", "ĐẾN NGÀY"
+                "MÃ DỊCH VỤ", "MÔ TẢ", "GIÁ DỊCH VỤ", "TỪ NGÀY", "ĐẾN NGÀY"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -200,14 +201,14 @@ public class GDV_frame extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("ĐẶT CỌC");
+        jLabel1.setText("GIÁ DỊCH VỤ");
         jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
-        jTfDeposit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTfDeposit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jTfDeposit.addActionListener(new java.awt.event.ActionListener() {
+        jTfPrice.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTfPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jTfPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTfDepositActionPerformed(evt);
+                jTfPriceActionPerformed(evt);
             }
         });
 
@@ -280,28 +281,28 @@ public class GDV_frame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jScrollPane1)
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(50, 50, 50)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTfToDate)
                             .addComponent(jTfFromDate)
-                            .addComponent(jTfClass)
-                            .addComponent(jTfDeposit)
+                            .addComponent(jTfID)
                             .addComponent(jTfPrice)
+                            .addComponent(jTfDescription)
                             .addComponent(jTfQuery, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,21 +326,29 @@ public class GDV_frame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jBUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jBSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jBSHOW, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jBExit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTfClass)
+                                    .addComponent(jTfID)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jTfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTfDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(19, 19, 19)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
-                                    .addComponent(jTfDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
@@ -347,66 +356,53 @@ public class GDV_frame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
-                                    .addComponent(jTfToDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jBAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jBUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
+                                    .addComponent(jTfToDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTfQuery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel6)
-                                    .addComponent(jBPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTfQuery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addComponent(jBAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBReset)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBReset)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jBSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBSHOW, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)
-                        .addComponent(jBExit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 50, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!jTfPrice.getText().isEmpty()){
-            String file ="Resource_Image/"+jTfPrice.getText()+".jpg";
+        if(!jTfDescription.getText().isEmpty()){
+            String file ="Resource_Image/"+jTfDescription.getText()+".jpg";
             jLPicture.setIcon(new ImageIcon(file));
     }//GEN-LAST:event_jButton1ActionPerformed
     }
@@ -420,24 +416,33 @@ public class GDV_frame extends javax.swing.JFrame {
             sqlCon = DriverManager.getConnection(databaseCon,username,password);
             // process the results
             String qr1="",qr2="";
-            if(!jTfPrice.getText().isEmpty()){
-                qr1="ID";qr2=jTfPrice.getText();
+            if(!jTfID.getText().isEmpty()){
+                qr1="ID_service";qr2=jTfID.getText();
+                
             }
-            else if(!jTfClass.getText().isEmpty()){
-                qr1="Name";qr2=jTfClass.getText();
+            else if(!jTfDescription.getText().isEmpty()){
+                qr1="Description";qr2=jTfDescription.getText();
             }
-            else if(!jTfDeposit.getText().isEmpty()){
-                qr1="Phone";qr2=jTfDeposit.getText();
+            else if(!jTfPrice.getText().isEmpty()){
+                qr1="Service_Price";qr2=jTfPrice.getText();
             }
             else if(!jTfFromDate.getText().isEmpty()){
-                qr1="Creditcard";qr2=jTfFromDate.getText();
+                qr1="From_Date";qr2=jTfFromDate.getText();
             }
             else if(!jTfToDate.getText().isEmpty()){
-                qr1="Address";qr2=jTfToDate.getText();
+                qr1="To_Date";qr2=jTfToDate.getText();
+            }
+            else if(jTfToDate.getText().isEmpty()){
+              qr1="To_Date";qr2="NULL";
+              jTfQuery.setText("now");
             }
             switch (jTfQuery.getText()){
                 case "" :
-                pst =sqlCon.prepareStatement(" select * from khach_hang where " + qr1 + " like '%"+ qr2 +"%'");
+                pst =sqlCon.prepareStatement(" select * from gia_dich_vu where " + qr1 + " like '%"+ qr2 +"%'");
+                break;
+                case "now":
+                pst =sqlCon.prepareStatement(" select * from gia_dich_vu where " + qr1 + " is "+ qr2 );   
+                    System.out.println(" select * from gia_dich_vu where " + qr1 + " is "+ qr2 +"");
                 break;
                 case ">" :
                 case "<" :
@@ -445,10 +450,10 @@ public class GDV_frame extends javax.swing.JFrame {
                 case ">=" :
                 case "<=" :
                 case "<>" :
-                pst =sqlCon.prepareStatement(" select * from khach_hang where " + qr1 +" "+jTfQuery.getText()+" '"+ qr2+"'" );
+                pst =sqlCon.prepareStatement(" select * from gia_dich_vu where " + qr1 +" "+jTfQuery.getText()+" '"+ qr2+"'" );
                 break;
                 default :
-                String q =" select * from khach_hang where " + qr1 +" BETWEEN '"+qr2+"' AND '"+ jTfQuery.getText()+ "'";
+                String q =" select * from gia_dich_vu where " + qr1 +" BETWEEN '"+qr2+"' AND '"+ jTfQuery.getText()+ "'";
                 System.out.println(q);
                 pst =sqlCon.prepareStatement(q );
             }
@@ -462,16 +467,15 @@ public class GDV_frame extends javax.swing.JFrame {
             while(rs.next()){
                 Vector columnData = new Vector();
                 for(i=1;i<=q;i++){
-
-                    columnData.add(rs.getString("Name"));
-                    System.out.println(rs.getString("Name"));
-                    columnData.add(rs.getString("ID"));
-                    columnData.add(rs.getString("Phone"));
-                    columnData.add(rs.getString("Creditcard"));
-                    columnData.add(rs.getString("Address"));
-                    columnData.add(rs.getString("Date_contacted"));
-                    columnData.add(rs.getString("Citizen_id"));
-                    columnData.add(rs.getString("Accompany"));
+                    columnData.add(rs.getString("ID_Service"));
+                    columnData.add(rs.getString("Description"));
+                    columnData.add(rs.getString("Service_Price"));
+                    columnData.add(rs.getString("From_Date"));
+                    if(rs.getString("To_Date")!=null)
+                    columnData.add(rs.getString("To_Date"));
+                     else
+                    columnData.add("");
+              
                 }
                 RecordTable.addRow(columnData);
 
@@ -487,11 +491,12 @@ public class GDV_frame extends javax.swing.JFrame {
 
     private void jBResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResetActionPerformed
         // TODO add your handling code here:
-        jTfClass.setText("");
+        jTfID.setText("");
+        jTfDescription.setText("");
         jTfPrice.setText("");
-        jTfDeposit.setText("");
         jTfToDate.setText("");
         jTfFromDate.setText("");
+        jTfQuery.setText("");
 
     }//GEN-LAST:event_jBResetActionPerformed
 
@@ -506,9 +511,9 @@ public class GDV_frame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTfToDateActionPerformed
 
-    private void jTfDepositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfDepositActionPerformed
+    private void jTfPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfPriceActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTfDepositActionPerformed
+    }//GEN-LAST:event_jTfPriceActionPerformed
 
     private void jBSHOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSHOWActionPerformed
         // TODO add your handling code here:
@@ -519,9 +524,9 @@ public class GDV_frame extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver") ;
             sqlCon = DriverManager.getConnection(databaseCon,username,password);
-            pst =sqlCon.prepareStatement("delete from khach_hang where ID = '"+jTfPrice.getText()+"'");
+            pst =sqlCon.prepareStatement("delete from gia_dich_vu where ID = '"+jTfDescription.getText()+"'");
             frame = new JFrame("delete");
-            if(JOptionPane.showConfirmDialog( frame,"Confirm Delete","Khach Hang "+jTfPrice.getText(),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            if(JOptionPane.showConfirmDialog( frame,"Confirm Delete","Khach Hang "+jTfDescription.getText(),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(this,"record updated");
                 upDateDB();
@@ -536,12 +541,12 @@ public class GDV_frame extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver") ;
             sqlCon = DriverManager.getConnection(databaseCon,username,password);
-            pst =sqlCon.prepareStatement("update khach_hang set Name =?,Phone =?,Creditcard =?,Address =?");
-            pst.setString(1,jTfClass.getText() );
-            pst.setString(2,jTfDeposit.getText() );
-            pst.setString(3,jTfFromDate.getText() );
-            pst.setString(4,jTfToDate.getText());
-            if(JOptionPane.showConfirmDialog( frame,"Confirm Update","Khach Hang "+jTfPrice.getText(),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            pst =sqlCon.prepareStatement("update gia_dich_vu set ID_Service =?,Description =?,Service_price =?,From_Date =?");
+            pst.setString(1,jTfID.getText() );
+            pst.setString(3,jTfPrice.getText() );
+            pst.setString(4,jTfFromDate.getText() );
+            pst.setString(2,jTfDescription.getText());
+            if(JOptionPane.showConfirmDialog( frame,"Confirm Update","GÍA DỊCH VỤ "+jTfDescription.getText(),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(this,"record updated");
                 upDateDB();
@@ -557,23 +562,46 @@ public class GDV_frame extends javax.swing.JFrame {
 
         try {
             Class.forName("com.mysql.jdbc.Driver") ;
-            int c =0; // case number
             sqlCon = DriverManager.getConnection(databaseCon,username,password);
-            if(jTfPrice.getText().isEmpty()){
-                pst =sqlCon.prepareStatement("insert into khach_hang (Name,Phone,Creditcard,Address,Date_contacted,Citizen_id,Accompany)value(?,?,?,?,?,?,?)");
+            if(!jTfID.getText().isEmpty()&&jTfToDate.getText().isEmpty()){
+            
+                String date="update gia_dich_vu set To_Date = DATE_SUB('"+ jTfFromDate.getText()+"', INTERVAL 1 DAY ) where ( ID_Service = '"+jTfID.getText() +"') and ( To_Date is null ) " ;
+                System.out.println(date);
+                pst =sqlCon.prepareStatement(date);
+                pst.executeUpdate();
+                pst =sqlCon.prepareStatement("insert into gia_dich_vu (ID_Service,Description,Service_price,From_Date)value(?,?,?,?)");
+                pst.setString(1,jTfID.getText() );
+                pst.setString(2,jTfDescription.getText() );
+                pst.setString(3,jTfPrice.getText() );
+                pst.setString(4,jTfFromDate.getText() );             
+        
             }
-            else {
-                pst =sqlCon.prepareStatement("insert into khach_hang (Name,ID,Phone,Creditcard,Address,Date_contacted,Citizen_id,Accompany)value(?,?,?,?,?,?,?,?)");
-                c=1;
-                pst.setString(2,jTfPrice.getText() );
+            else if(!jTfID.getText().isEmpty()&&!jTfToDate.getText().isEmpty()){
+                String date="update gia_dich_vu set To_Date = DATE_SUB('"+ jTfFromDate.getText()+"', INTERVAL 1 DAY ) where ( ID_Service = '"+jTfID.getText() +"') and ( To_Date is null ) " ;
+                System.out.println(date);
+                pst =sqlCon.prepareStatement(date);
+                pst.executeUpdate();
+                pst =sqlCon.prepareStatement("insert into gia_dich_vu (ID_Service,Description,Service_price,From_Date,To_Date)value(?,?,?,?,?)");
+                pst.setString(1,jTfID.getText() );
+                pst.setString(2,jTfDescription.getText() );
+                pst.setString(3,jTfPrice.getText() );
+                pst.setString(4,jTfFromDate.getText() );      
+                pst.setString(5,jTfToDate.getText());
             }
-            pst.setString(1,jTfClass.getText() );
-            pst.setString(2+c,jTfDeposit.getText() );
-            pst.setString(3+c,jTfFromDate.getText() );
-            pst.setString(4+c,jTfToDate.getText());
+            else  {
+                pst =sqlCon.prepareStatement("insert into gia_dich_vu (Description,Service_price,From_Date)value(?,?,?)");
+            pst.setString(1,jTfDescription.getText() );
+            pst.setString(2,jTfPrice.getText() );
+            if(!jTfFromDate.getText().isEmpty())
+            pst.setString(3,jTfFromDate.getText() );
+            else
+            pst.setString(3, java.time.LocalDate.now().toString());
+  
+            }
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Khách Hàng đã được lưu lại");
+            JOptionPane.showMessageDialog(this,"Giá Dịch Vụ đã được lưu lại");
             upDateDB();
+        
         }
         catch(Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -587,12 +615,12 @@ public class GDV_frame extends javax.swing.JFrame {
 
         int selectedrows= jTable1.getSelectedRow();
 
-        jTfClass.setText(RecordTable.getValueAt(selectedrows, 0).toString());
-        jTfPrice.setText(RecordTable.getValueAt(selectedrows, 1).toString());
-        jTfDeposit.setText(RecordTable.getValueAt(selectedrows, 2).toString());
+        jTfID.setText(RecordTable.getValueAt(selectedrows, 0).toString());
+        jTfDescription.setText(RecordTable.getValueAt(selectedrows, 1).toString());
+        jTfPrice.setText(RecordTable.getValueAt(selectedrows, 2).toString());
         jTfFromDate.setText(RecordTable.getValueAt(selectedrows, 3).toString());
         jTfToDate.setText(RecordTable.getValueAt(selectedrows,4).toString());
-        String file ="Resource_Image/"+jTfPrice.getText()+".jpg";
+        String file ="Resource_Image/"+jTfDescription.getText()+".jpg";
         jLPicture.setIcon(new ImageIcon(file));
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -601,13 +629,13 @@ public class GDV_frame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTfFromDateActionPerformed
 
-    private void jTfPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfPriceActionPerformed
+    private void jTfDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfDescriptionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTfPriceActionPerformed
+    }//GEN-LAST:event_jTfDescriptionActionPerformed
 
-    private void jTfClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfClassActionPerformed
+    private void jTfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTfClassActionPerformed
+    }//GEN-LAST:event_jTfIDActionPerformed
        
         private JFrame frame;    
     /**
@@ -672,9 +700,9 @@ public class GDV_frame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTfClass;
-    private javax.swing.JTextField jTfDeposit;
+    private javax.swing.JTextField jTfDescription;
     private javax.swing.JTextField jTfFromDate;
+    private javax.swing.JTextField jTfID;
     private javax.swing.JTextField jTfPrice;
     private javax.swing.JTextField jTfQuery;
     private javax.swing.JTextField jTfToDate;

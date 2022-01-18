@@ -54,8 +54,8 @@ public class PH_frame extends javax.swing.JFrame {
     System.out.println(rs.getString("ID_ROOM"));
     columnData.add(rs.getString("ID_SECTOR"));
     columnData.add(rs.getString("ROOM_CLASS"));
-    if(rs.getString("Ready_Date")!=null)
-    columnData.add(rs.getString("Ready_Date"));
+    if(rs.getString("Ready")!=null)
+    columnData.add(rs.getString("Ready"));
     else
     columnData.add("");
     if(rs.getString("DESCRIPTION")!=null)
@@ -278,7 +278,7 @@ public class PH_frame extends javax.swing.JFrame {
         jLabel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
         jCBClass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jCBClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Queen", "King", "Deluxe", "Classic", "Single" }));
+        jCBClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Queen", "King", "Deluxe", "Classic", "Single" }));
         jCBClass.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jCBClassItemStateChanged(evt);
@@ -314,11 +314,12 @@ public class PH_frame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jBUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBSHOW, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jBUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                        .addComponent(jBSHOW, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
@@ -412,18 +413,18 @@ public class PH_frame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBReset)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+                        .addGap(50, 50, 50)
                         .addComponent(jBSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBSHOW, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(71, 71, 71)
                         .addComponent(jBExit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(30, 30, 30))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -467,28 +468,21 @@ public class PH_frame extends javax.swing.JFrame {
                
                 System.out.println(" select * from phong where " + qr1 + "= '"+ qr2+"'");
             }
-            else if(jTfDate.getText().isEmpty()&&!jTfClass.getText().isEmpty()){
-            qr1="Ready_Date";
-            qr2="NULL";    
-            qr3="Room_Class";qr4=jTfClass.getText();
-                pst =sqlCon.prepareStatement(" select * from phong where (" + qr1 + " is "+ qr2 +" )and ("+ qr3+ "= '"+ qr4 +"')");
-                System.out.println(" select * from phong where (" + qr1 + "= '"+ qr2 +"' )and ("+ qr3+ "= '"+ qr4 +"')");
+            else if(jTfDate.getText().isEmpty()&&!jTfClass.getText().isEmpty()&&!jTfClass.getText().equals("All")){    
+            qr3="Room_Class";
+            qr4=jTfClass.getText();
+                pst =sqlCon.prepareStatement(" select * from phong where (Ready >= 1 )and ("+ qr3+ "= '"+ qr4 +"')");
+                System.out.println(" select * from phong where (Ready >= 1 )and ("+ qr3+ "= '"+ qr4 +"')");
             }
-            else if(!jTfDate.getText().isEmpty()&&!jTfClass.getText().isEmpty()){
-            qr1="Ready_Date";
-            qr2=jTfDate.getText();    
-            qr3="Room_Class";qr4=jTfClass.getText();
-                pst =sqlCon.prepareStatement(" select * from phong where ((" + qr1 + ">= "+ qr2 +" )or("+qr1+" is NULL ))and ("+ qr3+ "= '"+ qr4 +"')");
-                System.out.println(" select * from phong where (" + qr1 + ">= '"+ qr2 +"' )and ("+ qr3+ "= '"+ qr4 +"')");
-            }
+          
             else if(!jTfDate.getText().isEmpty())
-            {   qr1="Ready_Date";
-                qr2=jTfDate.getText(); 
-                pst =sqlCon.prepareStatement(" select * from phong where " + qr1 + ">= "+ qr2  );
+            {   qr1="Ready";
+                qr2= "1";
+                pst =sqlCon.prepareStatement(" select * from phong where " + qr1 + "= "+ qr2  );
             }
             else
-            {   qr1="Ready_Date";
-            pst =sqlCon.prepareStatement(" select * from phong where " + qr1 + " is NULL "  );
+            {   qr1="Ready";
+            pst =sqlCon.prepareStatement(" select * from phong where " + qr1 + " = '1' "  );
             }
      
             rs = pst.executeQuery();
@@ -510,9 +504,7 @@ public class PH_frame extends javax.swing.JFrame {
                     columnData.add(rs.getString("ID_Room"));       
                     columnData.add(rs.getString("ID_Sector"));
                     columnData.add(rs.getString("Room_Class"));
-                    if(rs.getString("Ready_Date")!=null)
-                    columnData.add(rs.getString("Ready_Date"));
-                    else
+                    columnData.add(rs.getString("Ready"));         
                     columnData.add("");
                     if(rs.getString("Description")!=null)
                     columnData.add(rs.getString("Description"));
@@ -587,24 +579,18 @@ public class PH_frame extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver") ;
             sqlCon = DriverManager.getConnection(databaseCon,username,password);
             if(jTfDescript.getText().isEmpty()){
-            pst =sqlCon.prepareStatement("update phong set ID_Room=?,ID_Sector=?,Room_Class =?,Ready_Date= ? where ID_Room =? ");
-                System.out.println("update phong set ID_Room=?,ID_Sector=?,Room_Class =?,Ready_Date= ? where ID_Room =? ");
+            pst =sqlCon.prepareStatement("update phong set ID_Room=?,ID_Sector=?,Room_Class =?,Ready= ? where ID_Room =? ");
+                System.out.println("update phong set ID_Room=?,ID_Sector=?,Room_Class =?,Ready= ? where ID_Room =? ");
             pst.setString(5,jTfID.getText() );
             pst.setString(1,jTfID.getText() );
             pst.setString(3,jTfClass.getText() );
-            if(jTfDate.getText().isEmpty())
-            pst.setNull(4,java.sql.Types.DATE);
-            else
             pst.setString(4,jTfDate.getText() );
             pst.setString(2,jTfSector.getText());}
             else{
-            pst =sqlCon.prepareStatement("update phong set ID_Room=?,ID_Sector=?,Room_Class =?,Ready_Date= ?,Description=? where ID_Room =? ");
+            pst =sqlCon.prepareStatement("update phong set ID_Room=?,ID_Sector=?,Room_Class =?,Ready= ?,Description=? where ID_Room =? ");
             pst.setString(6,jTfID.getText() );
             pst.setString(1,jTfID.getText() );
             pst.setString(3,jTfClass.getText() );
-            if(jTfDate.getText().isEmpty())
-            pst.setNull(4,java.sql.Types.DATE);
-            else
             pst.setString(4,jTfDate.getText() );
             pst.setString(5,jTfDescript.getText() );
             pst.setString(2,jTfSector.getText());}

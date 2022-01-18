@@ -354,8 +354,8 @@ public class GPH_frame extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(57, 57, 57))
         );
         jPanel1Layout.setVerticalGroup(
@@ -387,9 +387,9 @@ public class GPH_frame extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jTfToDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
+                                .addGap(12, 12, 12)
                                 .addComponent(jBAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -611,20 +611,12 @@ public class GPH_frame extends javax.swing.JFrame {
             int c =0; // case number
             sqlCon = DriverManager.getConnection(databaseCon,username,password);
             String qr1="",qr2="";
-            pst =sqlCon.prepareStatement(" SELECT max(From_Date) FROM gia_phong where room_class= '"+jTfClass.getText()+"'");
-            rs = pst.executeQuery();
-            System.out.println("1");
-            if(rs.next())qr1=rs.getDate(1).toString();
-            pst =sqlCon.prepareStatement("update gia_phong set To_Date =? where ( Room_Class=? ) and ( From_Date =? ) ");
-            System.out.println("2");
-            pst.setString(2,jTfClass.getText() );
-            pst.setString(3,qr1);
-            pst.setString(1,java.time.LocalDate.now().toString());
+            String date="update gia_phong set To_Date = DATE_SUB('"+ jTfFromDate.getText()+"', INTERVAL 1 DAY ) where ( Room_Class = '"+jTfClass.getText() +"') and ( To_Date is null ) " ;
+            System.out.println(date);
+            pst =sqlCon.prepareStatement(date);
             pst.executeUpdate();
-            if(jTfFromDate.getText().isEmpty()){qr2=java.time.LocalDate.now().toString();
-                System.out.println(qr2);
-            }
-            else qr2=jTfFromDate.getText();
+            System.out.println("2");
+            qr2=jTfFromDate.getText();
             if(jTfToDate.getText().isEmpty()){
                 pst =sqlCon.prepareStatement("insert into gia_phong (Room_Class,Room_Price,Room_Deposit,From_Date)value(?,?,?,?)");
             }
