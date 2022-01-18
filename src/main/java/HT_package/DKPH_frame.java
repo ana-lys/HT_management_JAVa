@@ -395,7 +395,7 @@ public class DKPH_frame extends javax.swing.JFrame {
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("   ID DỊCH VỤ");
+        jLabel5.setText("   ID PHONG");
         jLabel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
